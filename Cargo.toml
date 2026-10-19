@@ -12,10 +12,12 @@ dunce = { version = "1.0.5" }
 identity-hash = { version = "=0.1.0" }
 
 # optional/feature-gated dependencies
+fixed = { version = "1.31.0", optional = true }
 log = { version = "0.4.34", optional = true }
 serde_core = { version = "1.0", optional = true }
 
 [features]
 default = []
+fixed = ["dep:fixed"]
 log = ["dep:log"]
 serde = ["dep:serde_core"]

@@ -24,6 +24,37 @@ impl Lerp for f64 {
   }
 }
 
+#[cfg(feature = "fixed")]
+mod fixed {
+  use super::Lerp;
+
+  use fixed::{FixedU8, FixedU16, FixedU32, FixedU64, FixedU128, FixedI8, FixedI16, FixedI32, FixedI64, FixedI128};
+  use fixed::types::extra::{LeEqU8, LeEqU16, LeEqU32, LeEqU64, LeEqU128};
+
+  macro_rules! impl_lerp_fixed {
+    ($Fixed:ident, $Trait:ident) => (
+      impl<Frac, FracFactor: $Trait> Lerp<$Fixed<FracFactor>> for $Fixed<Frac> {
+        type Output = $Fixed<Frac>;
+
+        fn lerp([lhs, rhs]: [Self; 2], factor: $Fixed<FracFactor>) -> Self::Output {
+          $Fixed::lerp(factor, lhs, rhs)
+        }
+      }
+    );
+  }
+
+  impl_lerp_fixed!(FixedU8, LeEqU8);
+  impl_lerp_fixed!(FixedU16, LeEqU16);
+  impl_lerp_fixed!(FixedU32, LeEqU32);
+  impl_lerp_fixed!(FixedU64, LeEqU64);
+  impl_lerp_fixed!(FixedU128, LeEqU128);
+  impl_lerp_fixed!(FixedI8, LeEqU8);
+  impl_lerp_fixed!(FixedI16, LeEqU16);
+  impl_lerp_fixed!(FixedI32, LeEqU32);
+  impl_lerp_fixed!(FixedI64, LeEqU64);
+  impl_lerp_fixed!(FixedI128, LeEqU128);
+}
+
 impl<T, Factor, const N: usize> Lerp<[Factor; N]> for T
 where T: Lerp<Factor::Compound>, Factor: IntoCompound<N> {
   type Output = T::Output;

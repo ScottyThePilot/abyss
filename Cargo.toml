@@ -1,0 +1,21 @@
+[package]
+name = "abyss"
+version = "0.1.0"
+authors = ["ScottyThePilot <scotty.codes@gmail.com>"]
+edition = "2024"
+rust-version = "1.98"
+
+[dependencies]
+# mandatory dependencies
+bytemuck = { version = "1.25.2" }
+dunce = { version = "1.0.5" }
+identity-hash = { version = "=0.1.0" }
+
+# optional/feature-gated dependencies
+log = { version = "0.4.34", optional = true }
+serde_core = { version = "1.0", optional = true }
+
+[features]
+default = []
+log = ["dep:log"]
+serde = ["dep:serde_core"]

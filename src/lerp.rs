@@ -55,9 +55,9 @@ mod fixed {
   impl_lerp_fixed!(FixedI128, LeEqU128);
 }
 
-impl<T, Factor, const N: usize> Lerp<[Factor; N]> for T
-where T: Lerp<Factor::Compound>, Factor: IntoCompound<N> {
-  type Output = T::Output;
+impl<T, Factor, const N: usize> Lerp<[Factor; N]> for [T; 2]
+where [T; 2]: Lerp<Factor::Compound>, Factor: IntoCompound<N> {
+  type Output = <[T; 2] as Lerp<Factor::Compound>>::Output;
 
   fn lerp(operands: [Self; 2], factor: [Factor; N]) -> Self::Output where Self: Sized {
     Lerp::lerp(operands, Factor::into_compound(factor))

@@ -23,6 +23,14 @@ impl<E> ContextualError<E> {
   pub fn new(error: E, context: String) -> Self {
     ContextualError { error, context }
   }
+
+  pub fn map_error<O>(self, mut f: impl FnMut(E) -> O) -> ContextualError<O> {
+    ContextualError { error: f(self.error), context: self.context }
+  }
+
+  pub fn convert_error<O>(self) -> ContextualError<O> where E: Into<O> {
+    self.map_error(E::into)
+  }
 }
 
 impl<E> fmt::Display for ContextualError<E>

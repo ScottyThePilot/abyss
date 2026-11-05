@@ -12,10 +12,23 @@
   unreachable_pub
 )]
 
-pub extern crate dunce;
-
 #[cfg(feature = "serde")]
 extern crate serde_core as serde;
+
+pub mod externs {
+  pub extern crate bytemuck;
+  pub extern crate dunce;
+  pub extern crate identity_hash;
+
+  #[cfg(feature = "fixed")]
+  pub extern crate fixed;
+
+  #[cfg(feature = "log")]
+  pub extern crate log;
+
+  #[cfg(feature = "serde")]
+  pub extern crate serde_core as serde;
+}
 
 #[macro_use]
 pub mod macros;

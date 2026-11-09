@@ -1,0 +1,19 @@
+[package]
+name = "abyss-macros"
+version = "0.1.0"
+authors = ["ScottyThePilot <scotty.codes@gmail.com>"]
+edition = "2024"
+
+[lib]
+proc-macro = true
+
+[dependencies]
+chrono = { version = "0.4", optional = true }
+syn = { version = "3.0" }
+quote = { version = "1.0" }
+proc-macro2 = { version = "1.0" }
+
+[features]
+default = []
+chrono = ["dep:chrono"]
+git = []

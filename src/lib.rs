@@ -20,6 +20,9 @@ pub mod externs {
   pub extern crate dunce;
   pub extern crate identity_hash;
 
+  #[cfg(feature = "chrono")]
+  pub extern crate chrono;
+
   #[cfg(feature = "fixed")]
   pub extern crate fixed;
 

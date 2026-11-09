@@ -1,5 +1,37 @@
 //! Utility macros.
 
+#[cfg(feature = "git")]
+pub use abyss_macros::{
+  git_hash,
+  git_hash_short,
+  git_branch,
+  git_root
+};
+
+#[cfg(feature = "chrono")]
+pub use abyss_macros::{
+  build_chrono_datetime_utc,
+  build_chrono_datetime_utc_format,
+  build_chrono_datetime_utc_rfc2822,
+  build_chrono_datetime_utc_rfc3339,
+  build_chrono_datetime_local_fixed,
+  build_chrono_datetime_local_fixed_format,
+  build_chrono_datetime_local_fixed_rfc2822,
+  build_chrono_datetime_local_fixed_rfc3339
+};
+
+#[cfg(all(feature = "chrono", feature = "git"))]
+pub use abyss_macros::{
+  git_last_commit_chrono_datetime_utc,
+  git_last_commit_chrono_datetime_utc_format,
+  git_last_commit_chrono_datetime_utc_rfc2822,
+  git_last_commit_chrono_datetime_utc_rfc3339,
+  git_last_commit_chrono_datetime_local_fixed,
+  git_last_commit_chrono_datetime_local_fixed_format,
+  git_last_commit_chrono_datetime_local_fixed_rfc2822,
+  git_last_commit_chrono_datetime_local_fixed_rfc3339
+};
+
 #[doc(hidden)]
 pub fn map_fold<T, U, A>(
   mut map: impl FnMut(T) -> U,
@@ -8,6 +40,13 @@ pub fn map_fold<T, U, A>(
   move |acc, value| f(acc, map(value))
 }
 
+pub use crate::{
+  impl_iterator_map_methods,
+  impl_iterator_map_trait,
+  impl_iterator_map_traits
+};
+
+/// Helper macro to implement one or more [`Iterator`] traits for a given type, given only a mapping function.
 #[macro_export]
 macro_rules! impl_iterator_map_traits {
   ({ $($t:tt)* } impl [] for $Type:ty, $Item:ty, $inner:ident, $map_func:expr $(,)?) => ();
@@ -20,6 +59,7 @@ macro_rules! impl_iterator_map_traits {
   );
 }
 
+/// Helper macro to implement a given [`Iterator`] trait for a given type, given only a mapping function.
 #[macro_export]
 macro_rules! impl_iterator_map_trait {
   ({ $($t:tt)* } impl Iterator for $Type:ty, $Item:ty, $inner:ident, $map_func:expr $(,)?) => (
@@ -44,6 +84,7 @@ macro_rules! impl_iterator_map_trait {
   );
 }
 
+/// Helper macro to implement a given [`Iterator`] trait's methods for a given type, given only a mapping function.
 #[macro_export]
 macro_rules! impl_iterator_map_methods {
   (Iterator, $inner:ident, $map_func:expr $(,)?) => (

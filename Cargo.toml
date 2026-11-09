@@ -10,9 +10,11 @@ rust-version = "1.98"
 bytemuck = { version = "1.25.2" }
 dunce = { version = "1.0.5" }
 identity-hash = { version = "=0.1.0" }
+abyss-macros = { path = "./macros" }
 
 # optional/feature-gated dependencies
-fixed = { version = "1.31.0", optional = true }
+chrono = { version = "0.4.45", optional = true, default-features = false }
+fixed = { version = "1.31.0", optional = true, default-features = false }
 log = { version = "0.4.34", optional = true }
 serde_core = { version = "1.0", optional = true }
 
@@ -21,6 +23,12 @@ abyss = { path = ".", features = ["fixed", "log", "serde"] }
 
 [features]
 default = []
+chrono = ["abyss-macros/chrono", "dep:chrono"]
 fixed = ["dep:fixed"]
 log = ["dep:log"]
+git = ["abyss-macros/git"]
 serde = ["dep:serde_core"]
+
+[workspace]
+members = [".", "./macros"]
+default-members = ["."]

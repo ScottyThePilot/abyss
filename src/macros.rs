@@ -1,36 +1,6 @@
 //! Utility macros.
 
-#[cfg(feature = "git")]
-pub use abyss_macros::{
-  git_hash,
-  git_hash_short,
-  git_branch,
-  git_root
-};
-
-#[cfg(feature = "chrono")]
-pub use abyss_macros::{
-  build_chrono_datetime_utc,
-  build_chrono_datetime_utc_format,
-  build_chrono_datetime_utc_rfc2822,
-  build_chrono_datetime_utc_rfc3339,
-  build_chrono_datetime_local_fixed,
-  build_chrono_datetime_local_fixed_format,
-  build_chrono_datetime_local_fixed_rfc2822,
-  build_chrono_datetime_local_fixed_rfc3339
-};
-
-#[cfg(all(feature = "chrono", feature = "git"))]
-pub use abyss_macros::{
-  git_last_commit_chrono_datetime_utc,
-  git_last_commit_chrono_datetime_utc_format,
-  git_last_commit_chrono_datetime_utc_rfc2822,
-  git_last_commit_chrono_datetime_utc_rfc3339,
-  git_last_commit_chrono_datetime_local_fixed,
-  git_last_commit_chrono_datetime_local_fixed_format,
-  git_last_commit_chrono_datetime_local_fixed_rfc2822,
-  git_last_commit_chrono_datetime_local_fixed_rfc3339
-};
+pub use abyss_macros::*;
 
 #[doc(hidden)]
 pub fn map_fold<T, U, A>(

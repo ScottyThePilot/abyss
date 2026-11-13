@@ -1,7 +1,5 @@
 //! Opaque ID generators and types.
 
-pub extern crate identity_hash;
-
 pub mod map;
 
 use identity_hash::IdentityHashable;

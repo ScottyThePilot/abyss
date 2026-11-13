@@ -3,8 +3,6 @@
 pub mod blocking;
 pub mod nonblocking;
 
-use std::convert::Infallible;
-
 
 
 /// Quickly determines the validity of a resource.
@@ -23,13 +21,4 @@ pub enum ResourceStatus {
   InitializedValid,
   /// The resource has been retrieved or computed, but is now invalid.
   InitializedInvalid
-}
-
-
-
-fn into_ok<T>(result: Result<T, Infallible>) -> T {
-  match result {
-    Ok(value) => value,
-    Err(error) => match error {}
-  }
 }

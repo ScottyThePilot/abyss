@@ -1,9 +1,6 @@
 //! Utilities for adding context to and printing results/errors.
 
 #[cfg(feature = "log")]
-pub extern crate log;
-
-#[cfg(feature = "log")]
 use log::Level;
 
 use std::error::Error;

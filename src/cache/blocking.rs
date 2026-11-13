@@ -98,7 +98,8 @@ impl<T> Cache<T> {
 /// Get a resource or retrieve/compute it.
 pub fn get_or_init_resource<T, Args>(state_holder: &mut Option<T>, args: Args) -> &mut T
 where T: Resource<Args>, Args: Clone {
-  super::into_ok(try_get_or_init_resource(state_holder, args))
+  try_get_or_init_resource(state_holder, args)
+    .unwrap_or_else(|i| match i {})
 }
 
 /// Get a resource or retrieve/compute it, returning any errors encountered.

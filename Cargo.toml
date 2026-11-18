@@ -7,7 +7,7 @@ rust-version = "1.98"
 
 [dependencies]
 # mandatory dependencies
-bytemuck = { version = "1.25.2" }
+bytemuck = { version = "1.25.2", features = ["extern_crate_alloc"] }
 dunce = { version = "1.0.5" }
 identity-hash = { version = "=0.1.0" }
 abyss-macros = { path = "./macros" }
@@ -15,7 +15,7 @@ abyss-macros = { path = "./macros" }
 # optional/feature-gated dependencies
 chrono = { version = "0.4.45", optional = true, default-features = false }
 fixed = { version = "1.31.0", optional = true, default-features = false }
-log = { version = "0.4.34", optional = true }
+log = { version = "0.4.34", optional = true, features = ["alloc"] }
 serde_core = { version = "1.0", optional = true }
 
 [dev-dependencies]

@@ -39,6 +39,7 @@ pub mod macros;
 pub mod cache;
 pub mod error;
 pub mod ids;
+pub mod logging;
 pub mod ptr;
 pub mod sys;
 pub mod lerp;

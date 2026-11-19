@@ -1,5 +1,6 @@
 //! Utility macros.
 
+#[allow(unused_imports, deprecated)]
 pub use abyss_macros::*;
 
 #[doc(hidden)]

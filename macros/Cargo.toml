@@ -11,7 +11,7 @@ edition = "2024"
 proc-macro = true
 
 [dependencies]
-chrono = { version = "0.4", optional = true }
+chrono = { version = "0.4.45", optional = true }
 syn = { version = "3.0" }
 quote = { version = "1.0" }
 proc-macro2 = { version = "1.0" }

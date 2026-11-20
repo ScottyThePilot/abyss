@@ -2,6 +2,9 @@
 name = "abyss-macros"
 version = "0.1.0"
 authors = ["ScottyThePilot <scotty.codes@gmail.com>"]
+description = "General utility macros"
+repository = "https://github.com/ScottyThePilot/abyss"
+license = "MIT OR Apache-2.0"
 edition = "2024"
 
 [lib]

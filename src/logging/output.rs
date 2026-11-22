@@ -2,6 +2,10 @@
 
 use bytemuck::{TransparentWrapper, TransparentWrapperAlloc};
 use log::{Log, Metadata, Record, SetLoggerError};
+#[cfg(feature = "tokio")]
+use tokio::sync::mpsc::UnboundedSender as AsyncUnboundedSender;
+#[cfg(feature = "tokio")]
+use tokio::sync::mpsc::error::SendError as AsyncSendError;
 
 use std::convert::Infallible;
 use std::fmt;
@@ -347,6 +351,23 @@ impl OutputMut for Panic {
 
 impl Output for Sender<String> {
   type Error = SendError<String>;
+
+  fn enabled(&self, _: &Metadata) -> bool {
+    true
+  }
+
+  fn log(&self, record: &Record) -> Result<(), Self::Error> {
+    self.send(format!("{}\n", record.args()))
+  }
+
+  fn flush(&self) -> Result<(), Self::Error> {
+    Ok(())
+  }
+}
+
+#[cfg(feature = "tokio")]
+impl Output for AsyncUnboundedSender<String> {
+  type Error = AsyncSendError<String>;
 
   fn enabled(&self, _: &Metadata) -> bool {
     true

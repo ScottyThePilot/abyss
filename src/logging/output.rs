@@ -213,6 +213,18 @@ impl_output_iter_mut!(<O> Vec<O>);
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct OutputWrite<W: ?Sized>(pub W);
 
+impl<W: ?Sized> OutputWrite<W> {
+  pub const fn new(write: W) -> Self
+  where W: Sized, Self: Output {
+    OutputWrite(write)
+  }
+
+  pub const fn new_mut(write: W) -> Self
+  where W: Sized, Self: OutputMut {
+    OutputWrite(write)
+  }
+}
+
 unsafe impl<W: ?Sized> TransparentWrapper<W> for OutputWrite<W> {}
 
 impl<W: Send + Sync + ?Sized> OutputMut for OutputWrite<W> where W: Write {
@@ -365,12 +377,12 @@ pub struct OutputPredicate<O, P> {
 
 impl<O, P> OutputPredicate<O, P> {
   pub const fn new(output: O, predicate: P) -> Self
-  where O: Output, P: Fn(&Metadata<'_>) -> bool + Send + Sync {
+  where O: Sized, P: Sized, Self: Output {
     OutputPredicate { output, predicate }
   }
 
   pub const fn new_mut(output: O, predicate: P) -> Self
-  where O: OutputMut, P: FnMut(&Metadata<'_>) -> bool + Send + Sync {
+  where O: Sized, P: Sized, Self: OutputMut {
     OutputPredicate { output, predicate }
   }
 }
@@ -416,13 +428,13 @@ pub struct OutputMapError<O, F> {
 }
 
 impl<O, F> OutputMapError<O, F> {
-  pub const fn new<E>(output: O, map_error: F) -> Self
-  where O: Output, F: Fn(O::Error) -> E + Send + Sync {
+  pub const fn new(output: O, map_error: F) -> Self
+  where O: Sized, F: Sized, Self: Output {
     OutputMapError { output, map_error }
   }
 
-  pub const fn new_mut<E>(output: O, map_error: F) -> Self
-  where O: OutputMut, F: FnMut(O::Error) -> E + Send + Sync {
+  pub const fn new_mut(output: O, map_error: F) -> Self
+  where O: Sized, F: Sized, Self: OutputMut {
     OutputMapError { output, map_error }
   }
 }
@@ -466,6 +478,13 @@ impl<O: OutputMut, F: FnMut(O::Error) -> E + Send + Sync, E> OutputMut for Outpu
 pub struct LogOutput<O: ?Sized>(pub O);
 
 unsafe impl<O: ?Sized> TransparentWrapper<O> for LogOutput<O> {}
+
+impl<O: ?Sized> LogOutput<O> {
+  pub const fn new(output: O) -> Self
+  where O: Sized, Self: Output {
+    LogOutput(output)
+  }
+}
 
 impl<O: Output<Error = E> + ?Sized, E: fmt::Display> Log for LogOutput<O> {
   fn enabled(&self, metadata: &Metadata) -> bool {

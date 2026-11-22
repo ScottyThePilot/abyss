@@ -32,6 +32,7 @@ fixed = ["dep:fixed"]
 log = ["dep:log"]
 git = ["abyss-macros/git"]
 serde = ["dep:serde_core"]
+tokio = ["dep:tokio"]
 
 [workspace]
 members = [".", "./macros"]

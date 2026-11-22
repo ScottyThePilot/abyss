@@ -524,17 +524,9 @@ impl<E: fmt::Display> Log for dyn Output<Error = E> {
 
 
 fn fallback_log<E: fmt::Display>(record: &Record, f: impl FnOnce() -> Result<(), E>) {
-  if let Err(error) = f() {
-    writeln!(io::stderr(), "Error while logging (Contents: {}, Record: {:?}, Error: {})", record.args(), record, error).unwrap_or_else(|_| {
-      panic!("Error while reporting a log error: (Contents: {}, Record: {:?}, Error: {})", record.args(), record, error);
-    });
-  };
+  f().unwrap_or_else(|error| panic!("error while logging:\n- contents: {}\n- record: {:?}\n- error: {}", record.args(), record, error))
 }
 
 fn fallback_flush<E: fmt::Display>(f: impl FnOnce() -> Result<(), E>) {
-  if let Err(error) = f() {
-    writeln!(io::stderr(), "Error while flushing (Error: {})", error).unwrap_or_else(|_| {
-      panic!("Error while reporting a flush error: (Error: {})", error);
-    });
-  };
+  f().unwrap_or_else(|error| panic!("error while flushing logger:\n- error: {}", error));
 }
